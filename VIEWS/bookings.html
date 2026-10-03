@@ -1,0 +1,638 @@
+<div class="page-header">
+
+    <div>
+
+        <h1>Booking History</h1>
+
+        <p>
+            Manage parking reservations and parking sessions.
+        </p>
+
+    </div>
+
+
+    <a href="#!/book-parking"
+       class="primary-btn">
+
+        + New Parking
+
+    </a>
+
+</div>
+
+
+<!-- =====================================
+     BOOKING STATISTICS
+===================================== -->
+
+<div class="booking-stats">
+
+
+    <div class="booking-stat-card">
+
+        <span>
+            📋
+        </span>
+
+        <div>
+
+            <small>
+                Total Bookings
+            </small>
+
+            <strong>
+                {{ getTotalBookings() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="booking-stat-card">
+
+        <span>
+            ⚡
+        </span>
+
+        <div>
+
+            <small>
+                Active
+            </small>
+
+            <strong>
+                {{ getActiveBookings() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="booking-stat-card">
+
+        <span>
+            ❌
+        </span>
+
+        <div>
+
+            <small>
+                Cancelled
+            </small>
+
+            <strong>
+                {{ getCancelledBookings() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     FILTERS
+===================================== -->
+
+<div class="booking-filter-card">
+
+
+    <input
+        type="text"
+        ng-model="searchText"
+        placeholder="Search booking ID, slot or vehicle type..."
+    >
+
+
+    <select ng-model="statusFilter">
+
+        <option value="All">
+            All Status
+        </option>
+
+        <option value="Reserved">
+            Reserved
+        </option>
+
+        <option value="Occupied">
+            Occupied
+        </option>
+
+        <option value="Completed">
+            Completed
+        </option>
+
+        <option value="Cancelled">
+            Cancelled
+        </option>
+
+    </select>
+
+</div>
+
+
+<!-- =====================================
+     BOOKINGS TABLE
+===================================== -->
+
+<div
+    class="booking-table-wrapper"
+    ng-if="bookings.length > 0">
+
+
+    <table class="booking-table">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Booking ID
+                </th>
+
+                <th>
+                    Vehicle Type
+                </th>
+
+                <th>
+                    Slot
+                </th>
+
+                <th>
+                    Duration
+                </th>
+
+                <th>
+                    Fee
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+                <th>
+                    Actions
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            <tr
+                ng-repeat="
+                    booking in bookings
+                    | filter:filterBookings
+                ">
+
+
+                <td>
+
+                    <strong>
+                        {{ booking.bookingId }}
+                    </strong>
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        ng-if="
+                            booking.vehicleType === 'Car'
+                        ">
+
+                        🚗
+
+                    </span>
+
+                    <span
+                        ng-if="
+                            booking.vehicleType === 'Two Wheeler'
+                        ">
+
+                        🏍️
+
+                    </span>
+
+                    {{ booking.vehicleType }}
+
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        {{ booking.slotNumber }}
+                    </strong>
+
+                    <small class="table-subtext">
+                        {{ booking.floor }}
+                    </small>
+
+                </td>
+
+
+                <td>
+
+                    {{ booking.duration }}
+                    hour(s)
+
+                </td>
+
+
+                <td>
+
+                    ₹{{
+                        booking.finalFee ||
+                        booking.fee
+                        | number:2
+                    }}
+
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="status-badge"
+                        ng-class="
+                            getStatusClass(
+                                booking.status
+                            )
+                        ">
+
+                        {{ booking.status }}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <div class="action-buttons">
+
+
+                        <!-- VIEW -->
+
+                        <button
+                            class="view-btn"
+                            ng-click="
+                                viewBooking(booking)
+                            "
+                            title="View">
+
+                            👁️
+
+                        </button>
+
+
+                        <!-- CHECK IN -->
+
+                        <button
+                            class="checkin-btn"
+                            ng-if="
+                                booking.status === 'Reserved'
+                            "
+                            ng-click="
+                                checkIn(booking)
+                            "
+                            title="Check-In">
+
+                            ▶️
+
+                        </button>
+
+
+                        <!-- CHECK OUT -->
+
+                        <button
+                            class="checkout-btn"
+                            ng-if="
+                                booking.status === 'Occupied'
+                            "
+                            ng-click="
+                                checkOut(booking)
+                            "
+                            title="Check-Out">
+
+                            ⏹️
+
+                        </button>
+
+
+                        <!-- CANCEL -->
+
+                        <button
+                            class="cancel-btn"
+                            ng-if="
+                                booking.status === 'Reserved'
+                            "
+                            ng-click="
+                                cancelBooking(booking)
+                            "
+                            title="Cancel">
+
+                            ✕
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<!-- =====================================
+     EMPTY STATE
+===================================== -->
+
+<div
+    class="empty-state"
+    ng-if="bookings.length === 0">
+
+    <div>
+        📋
+    </div>
+
+    <h3>
+        No parking bookings
+    </h3>
+
+    <p>
+        Create a parking booking to see it here.
+    </p>
+
+    <a href="#!/book-parking"
+       class="primary-btn">
+
+        Book Parking
+
+    </a>
+
+</div>
+
+
+<!-- =====================================
+     BOOKING DETAILS MODAL
+===================================== -->
+
+<div
+    class="modal-overlay"
+    ng-if="selectedBooking"
+    ng-click="closeDetails()">
+
+
+    <div
+        class="details-modal"
+        ng-click="$event.stopPropagation()">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2>
+                    Booking Details
+                </h2>
+
+                <p>
+                    {{ selectedBooking.bookingId }}
+                </p>
+
+            </div>
+
+
+            <button
+                class="modal-close"
+                ng-click="closeDetails()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="details-grid">
+
+
+            <div class="detail-item">
+
+                <span>
+                    Vehicle Type
+                </span>
+
+                <strong>
+                    {{ selectedBooking.vehicleType }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    Parking Slot
+                </span>
+
+                <strong>
+                    {{ selectedBooking.slotNumber }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    Floor
+                </span>
+
+                <strong>
+                    {{ selectedBooking.floor }}
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    Booked Duration
+                </span>
+
+                <strong>
+                    {{ selectedBooking.duration }}
+                    hour(s)
+                </strong>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <span>
+                    Parking Fee
+                </span>
+
+                <strong class="modal-fee">
+
+                    ₹{{
+                        selectedBooking.fee
+                        | number:2
+                    }}
+
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-item"
+                ng-if="
+                    selectedBooking.checkInTime
+                ">
+
+                <span>
+                    Check-In Time
+                </span>
+
+                <strong>
+                    {{ selectedBooking.checkInTime }}
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-item"
+                ng-if="
+                    selectedBooking.checkOutTime
+                ">
+
+                <span>
+                    Check-Out Time
+                </span>
+
+                <strong>
+                    {{ selectedBooking.checkOutTime }}
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-item"
+                ng-if="
+                    selectedBooking.actualHours
+                ">
+
+                <span>
+                    Actual Duration
+                </span>
+
+                <strong>
+
+                    {{ selectedBooking.actualHours }}
+                    hour(s)
+
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-item"
+                ng-if="
+                    selectedBooking.extraHours
+                ">
+
+                <span>
+                    Extra Hours
+                </span>
+
+                <strong>
+
+                    {{ selectedBooking.extraHours }}
+                    hour(s)
+
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-item"
+                ng-if="
+                    selectedBooking.extraCharge
+                ">
+
+                <span>
+                    Extra Charge
+                </span>
+
+                <strong>
+
+                    ₹{{
+                        selectedBooking.extraCharge
+                        | number:2
+                    }}
+
+                </strong>
+
+            </div>
+
+
+            <div
+                class="detail-item"
+                ng-if="
+                    selectedBooking.finalFee
+                ">
+
+                <span>
+                    Final Fee
+                </span>
+
+                <strong class="modal-fee">
+
+                    ₹{{
+                        selectedBooking.finalFee
+                        | number:2
+                    }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="secondary-btn"
+                ng-click="closeDetails()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,409 @@
+<div class="page-header">
+
+    <div>
+
+        <h1>Parking Charges</h1>
+
+        <p>
+            View completed parking bills and invoices.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="charge-container">
+
+
+    <div
+        class="bill-table-wrapper"
+        ng-if="completedBookings.length > 0">
+
+
+        <table class="bill-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Booking ID
+                    </th>
+
+                    <th>
+                        Vehicle Type
+                    </th>
+
+                    <th>
+                        Slot
+                    </th>
+
+                    <th>
+                        Duration
+                    </th>
+
+                    <th>
+                        Final Amount
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr
+                    ng-repeat="
+                        booking in completedBookings
+                    ">
+
+
+                    <td>
+
+                        <strong>
+                            {{ booking.bookingId }}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        {{ booking.vehicleType }}
+                    </td>
+
+
+                    <td>
+                        {{ booking.slotNumber }}
+                    </td>
+
+
+                    <td>
+
+                        {{ booking.actualHours }}
+                        hour(s)
+
+                    </td>
+
+
+                    <td class="bill-price">
+
+                        ₹{{
+                            booking.finalFee
+                            | number:2
+                        }}
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="invoice-btn"
+                            ng-click="
+                                viewInvoice(booking)
+                            ">
+
+                            🧾 View Bill
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+        class="charge-empty"
+        ng-if="completedBookings.length === 0">
+
+        <div>
+            💳
+        </div>
+
+        <h3>
+            No completed parking bills
+        </h3>
+
+        <p>
+            Completed parking sessions will appear here.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     INVOICE MODAL
+===================================== -->
+
+<div
+    class="invoice-overlay"
+    ng-if="selectedInvoice">
+
+
+    <div class="invoice-modal">
+
+
+        <div class="invoice-top">
+
+            <div>
+
+                <span>
+                    SMARTPARK
+                </span>
+
+                <h2>
+                    Parking Invoice
+                </h2>
+
+            </div>
+
+
+            <button
+                class="invoice-close"
+                ng-click="closeInvoice()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="invoice-booking-id">
+
+            Booking ID:
+            <strong>
+                {{ selectedInvoice.bookingId }}
+            </strong>
+
+        </div>
+
+
+        <!-- PARKING INFORMATION -->
+
+        <div class="invoice-info-grid">
+
+
+            <div>
+
+                <span>
+                    Vehicle Type
+                </span>
+
+                <strong>
+                    {{ selectedInvoice.vehicleType }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Parking Slot
+                </span>
+
+                <strong>
+                    {{ selectedInvoice.slotNumber }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Floor
+                </span>
+
+                <strong>
+                    {{ selectedInvoice.floor }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Booked Duration
+                </span>
+
+                <strong>
+
+                    {{ selectedInvoice.duration }}
+                    hour(s)
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- TIME -->
+
+        <div class="invoice-time-grid">
+
+
+            <div>
+
+                <span>
+                    Check-In
+                </span>
+
+                <strong>
+                    {{ selectedInvoice.checkInTime }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Check-Out
+                </span>
+
+                <strong>
+                    {{ selectedInvoice.checkOutTime }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- BILL BREAKDOWN -->
+
+        <div class="invoice-breakdown">
+
+
+            <div class="invoice-row">
+
+                <span>
+                    Base Parking Charge
+                </span>
+
+                <strong>
+
+                    ₹{{
+                        selectedInvoice.baseFee
+                        | number:2
+                    }}
+
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-row">
+
+                <span>
+                    Actual Duration
+                </span>
+
+                <strong>
+
+                    {{ selectedInvoice.actualHours }}
+                    hour(s)
+
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-row">
+
+                <span>
+                    Extra Hours
+                </span>
+
+                <strong>
+
+                    {{ selectedInvoice.extraHours }}
+                    hour(s)
+
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-row">
+
+                <span>
+                    Extra Charges
+                </span>
+
+                <strong>
+
+                    ₹{{
+                        selectedInvoice.extraCharge
+                        | number:2
+                    }}
+
+                </strong>
+
+            </div>
+
+
+            <div class="invoice-total">
+
+                <span>
+                    Total Amount
+                </span>
+
+                <strong>
+
+                    ₹{{
+                        selectedInvoice.finalFee
+                        | number:2
+                    }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="invoice-actions">
+
+            <button
+                class="print-btn"
+                onclick="window.print()">
+
+                🖨️ Print Bill
+
+            </button>
+
+
+            <button
+                class="secondary-btn"
+                ng-click="closeInvoice()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

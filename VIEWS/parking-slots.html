@@ -1,0 +1,234 @@
+<div class="page-header">
+
+    <div>
+
+        <h1>Parking Slots</h1>
+
+        <p>
+            View real-time parking slot availability.
+        </p>
+
+    </div>
+
+
+    <a href="#!/book-parking"
+       class="primary-btn">
+
+        + Book Parking
+
+    </a>
+
+</div>
+
+
+<!-- =====================================
+     SLOT SUMMARY
+===================================== -->
+
+<div class="slot-summary">
+
+
+    <div class="slot-summary-card">
+
+        <span class="summary-dot available-dot"></span>
+
+        <div>
+
+            <small>
+                Available
+            </small>
+
+            <strong>
+                {{ getAvailableCount() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="slot-summary-card">
+
+        <span class="summary-dot reserved-dot"></span>
+
+        <div>
+
+            <small>
+                Reserved
+            </small>
+
+            <strong>
+                {{ getReservedCount() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="slot-summary-card">
+
+        <span class="summary-dot occupied-dot"></span>
+
+        <div>
+
+            <small>
+                Occupied
+            </small>
+
+            <strong>
+                {{ getOccupiedCount() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     FLOOR FILTER
+===================================== -->
+
+<div class="slot-toolbar">
+
+    <div>
+
+        <label>
+            Floor
+        </label>
+
+        <select ng-model="floorFilter">
+
+            <option value="All">
+                All Floors
+            </option>
+
+            <option value="Ground Floor">
+                Ground Floor
+            </option>
+
+            <option value="First Floor">
+                First Floor
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="slot-legend">
+
+        <span>
+            <i class="legend available"></i>
+            Available
+        </span>
+
+        <span>
+            <i class="legend reserved"></i>
+            Reserved
+        </span>
+
+        <span>
+            <i class="legend occupied"></i>
+            Occupied
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     PARKING GRID
+===================================== -->
+
+<div class="parking-grid">
+
+
+    <div
+        class="parking-slot"
+        ng-repeat="slot in slots"
+        ng-if="showSlot(slot)"
+        ng-class="{
+            available:
+                slot.status === 'available',
+
+            reserved:
+                slot.status === 'reserved',
+
+            occupied:
+                slot.status === 'occupied',
+
+            selected:
+                selectedSlot &&
+                selectedSlot.id === slot.id
+        }"
+        ng-click="selectSlot(slot)">
+
+
+        <div class="slot-number">
+
+            {{ slot.slotNumber }}
+
+        </div>
+
+
+        <div class="slot-type">
+
+            {{ slot.type }}
+
+        </div>
+
+
+        <div class="slot-status">
+
+            {{ slot.status }}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     SELECTED SLOT
+===================================== -->
+
+<div
+    class="selected-slot-card"
+    ng-if="selectedSlot">
+
+
+    <div>
+
+        <span>
+            Selected Parking Slot
+        </span>
+
+        <h2>
+            {{ selectedSlot.slotNumber }}
+        </h2>
+
+        <p>
+
+            {{ selectedSlot.floor }}
+            ·
+            {{ selectedSlot.type }}
+
+        </p>
+
+    </div>
+
+
+    <a
+        href="#!/book-parking"
+        class="primary-btn">
+
+        Continue Booking
+
+    </a>
+
+</div>

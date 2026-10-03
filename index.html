@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="smartParkApp">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartPark - Smart Parking Management</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+
+<body ng-controller="MainController">
+
+
+    <!-- ================================
+         NAVBAR
+    ================================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+
+            <a href="#!/dashboard"
+               class="logo">
+
+                🅿️ SmartPark
+
+            </a>
+
+
+            <div class="nav-links">
+
+                <a href="#!/dashboard"
+                   ng-class="{active: currentPage === 'dashboard'}">
+
+                    Dashboard
+
+                </a>
+
+
+                <a href="#!/parking-slots"
+                   ng-class="{active: currentPage === 'parking-slots'}">
+
+                    Parking Slots
+
+                </a>
+
+
+                <a href="#!/book-parking"
+                   ng-class="{active: currentPage === 'book-parking'}">
+
+                    Book Parking
+
+                </a>
+
+
+                <a href="#!/bookings"
+                   ng-class="{active: currentPage === 'bookings'}">
+
+                    Bookings
+
+                </a>
+
+
+                <a href="#!/charges"
+                   ng-class="{active: currentPage === 'charges'}">
+
+                    Charges
+
+                </a>
+
+
+                <a href="#!/reports"
+                   ng-class="{active: currentPage === 'reports'}">
+
+                    Reports
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main-container">
+
+        <div ng-view></div>
+
+    </main>
+
+
+    <!-- ================================
+         LIBRARIES
+    ================================= -->
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js">
+    </script>
+
+
+    <!-- AngularJS Route -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js">
+    </script>
+
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+
+
+    <!-- Application JS -->
+    <script src="js/app.js"></script>
+
+    <script src="js/services.js"></script>
+
+    <script src="js/controllers.js"></script>
+
+</body>
+
+</html>

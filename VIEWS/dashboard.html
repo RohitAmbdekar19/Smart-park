@@ -1,0 +1,413 @@
+<div class="page-header">
+
+    <div>
+
+        <h1>Dashboard</h1>
+
+        <p>
+            Welcome to SmartPark Parking Management System.
+        </p>
+
+    </div>
+
+
+    <a href="#!/book-parking"
+       class="primary-btn">
+
+        + Book Parking
+
+    </a>
+
+</div>
+
+
+<!-- =====================================
+     PARKING STATISTICS
+===================================== -->
+
+<div class="section-heading">
+
+    <h2>Parking Overview</h2>
+
+</div>
+
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">
+            🅿️
+        </div>
+
+        <div>
+
+            <span>
+                Total Slots
+            </span>
+
+            <strong>
+                {{ getTotalSlots() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon green">
+            🟢
+        </div>
+
+        <div>
+
+            <span>
+                Available
+            </span>
+
+            <strong>
+                {{ getAvailableSlots() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon yellow">
+            🟡
+        </div>
+
+        <div>
+
+            <span>
+                Reserved
+            </span>
+
+            <strong>
+                {{ getReservedSlots() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon red">
+            🔴
+        </div>
+
+        <div>
+
+            <span>
+                Occupied
+            </span>
+
+            <strong>
+                {{ getOccupiedSlots() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     BOOKING STATISTICS
+===================================== -->
+
+<div class="section-heading">
+
+    <h2>Booking Overview</h2>
+
+</div>
+
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">
+            📋
+        </div>
+
+        <div>
+
+            <span>
+                Total Bookings
+            </span>
+
+            <strong>
+                {{ getTotalBookings() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon yellow">
+            ⚡
+        </div>
+
+        <div>
+
+            <span>
+                Active Bookings
+            </span>
+
+            <strong>
+                {{ getActiveBookings() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon green">
+            ✅
+        </div>
+
+        <div>
+
+            <span>
+                Completed
+            </span>
+
+            <strong>
+                {{ getCompletedBookings() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon purple">
+            💰
+        </div>
+
+        <div>
+
+            <span>
+                Total Revenue
+            </span>
+
+            <strong>
+                ₹{{ getTotalRevenue() | number:2 }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     QUICK ACTIONS
+===================================== -->
+
+<div class="section-heading">
+
+    <h2>Quick Actions</h2>
+
+</div>
+
+
+<div class="quick-actions">
+
+
+    <a href="#!/book-parking"
+       class="quick-action">
+
+        <span>📝</span>
+
+        <div>
+
+            <strong>
+                Book Parking
+            </strong>
+
+            <small>
+                Create a new parking booking
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <a href="#!/parking-slots"
+       class="quick-action">
+
+        <span>🅿️</span>
+
+        <div>
+
+            <strong>
+                Parking Slots
+            </strong>
+
+            <small>
+                View live parking availability
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <a href="#!/bookings"
+       class="quick-action">
+
+        <span>📋</span>
+
+        <div>
+
+            <strong>
+                Booking History
+            </strong>
+
+            <small>
+                Manage parking sessions
+            </small>
+
+        </div>
+
+    </a>
+
+
+    <a href="#!/charges"
+       class="quick-action">
+
+        <span>💳</span>
+
+        <div>
+
+            <strong>
+                Parking Bills
+            </strong>
+
+            <small>
+                View completed bills
+            </small>
+
+        </div>
+
+    </a>
+
+</div>
+
+
+<!-- =====================================
+     RECENT BOOKINGS
+===================================== -->
+
+<div class="section-heading">
+
+    <h2>Recent Bookings</h2>
+
+    <a href="#!/bookings">
+        View All
+    </a>
+
+</div>
+
+
+<div
+    class="recent-bookings"
+    ng-if="bookings.length > 0">
+
+
+    <div
+        class="recent-booking"
+        ng-repeat="booking in getRecentBookings()">
+
+
+        <div>
+
+            <strong>
+                {{ booking.bookingId }}
+            </strong>
+
+            <p>
+
+                {{ booking.vehicleType }}
+                ·
+                Slot {{ booking.slotNumber }}
+
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <span
+                class="status-badge"
+                ng-class="
+                    getStatusClass(
+                        booking.status
+                    )
+                ">
+
+                {{ booking.status }}
+
+            </span>
+
+        </div>
+
+
+        <div class="recent-price">
+
+            ₹{{ booking.finalFee || booking.fee | number:2 }}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="empty-state"
+    ng-if="bookings.length === 0">
+
+    <div>
+        🅿️
+    </div>
+
+    <h3>
+        No bookings yet
+    </h3>
+
+    <p>
+        Create your first parking booking.
+    </p>
+
+    <a href="#!/book-parking"
+       class="primary-btn">
+
+        Book Parking
+
+    </a>
+
+</div>

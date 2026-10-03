@@ -1,0 +1,472 @@
+<div class="page-header">
+
+    <div>
+
+        <h1>Book Parking</h1>
+
+        <p>
+            Select vehicle type, parking duration and an available slot.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="booking-layout">
+
+
+    <!-- =================================
+         BOOKING FORM
+    ================================== -->
+
+    <div class="form-card">
+
+
+        <div class="form-card-header">
+
+            <h2>
+                Parking Details
+            </h2>
+
+            <p>
+                Enter parking requirements.
+            </p>
+
+        </div>
+
+
+        <form
+            name="bookingForm"
+            ng-submit="bookParking(bookingForm)"
+            novalidate>
+
+
+            <!-- VEHICLE TYPE -->
+
+            <div class="form-group">
+
+                <label>
+                    Vehicle Type *
+                </label>
+
+
+                <div class="vehicle-type-options">
+
+
+                    <label
+                        class="vehicle-type-option"
+                        ng-class="{
+                            selected:
+                            booking.vehicleType === 'Car'
+                        }">
+
+
+                        <input
+                            type="radio"
+                            name="vehicleType"
+                            value="Car"
+                            ng-model="booking.vehicleType"
+                            required>
+
+
+                        <span class="vehicle-icon">
+                            🚗
+                        </span>
+
+
+                        <span>
+
+                            <strong>
+                                Car
+                            </strong>
+
+                            <small>
+                                Four Wheeler
+                            </small>
+
+                        </span>
+
+                    </label>
+
+
+                    <label
+                        class="vehicle-type-option"
+                        ng-class="{
+                            selected:
+                            booking.vehicleType === 'Two Wheeler'
+                        }">
+
+
+                        <input
+                            type="radio"
+                            name="vehicleType"
+                            value="Two Wheeler"
+                            ng-model="booking.vehicleType"
+                            required>
+
+
+                        <span class="vehicle-icon">
+                            🏍️
+                        </span>
+
+
+                        <span>
+
+                            <strong>
+                                Two Wheeler
+                            </strong>
+
+                            <small>
+                                Bike / Scooter
+                            </small>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- DURATION -->
+
+            <div class="form-group">
+
+                <label>
+                    Parking Duration *
+                </label>
+
+
+                <select
+                    name="duration"
+                    ng-model="booking.duration"
+                    required>
+
+                    <option value="">
+                        Select duration
+                    </option>
+
+                    <option value="1">
+                        1 Hour
+                    </option>
+
+                    <option value="2">
+                        2 Hours
+                    </option>
+
+                    <option value="3">
+                        3 Hours
+                    </option>
+
+                    <option value="4">
+                        4 Hours
+                    </option>
+
+                    <option value="5">
+                        5 Hours
+                    </option>
+
+                    <option value="6">
+                        6 Hours
+                    </option>
+
+                    <option value="7">
+                        7 Hours
+                    </option>
+
+                    <option value="8">
+                        8 Hours
+                    </option>
+
+                    <option value="9">
+                        9 Hours
+                    </option>
+
+                    <option value="10">
+                        10 Hours
+                    </option>
+
+                    <option value="11">
+                        11 Hours
+                    </option>
+
+                    <option value="12">
+                        12 Hours
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PARKING SLOT -->
+
+            <div class="form-group">
+
+                <label>
+                    Parking Slot *
+                </label>
+
+
+                <select
+                    name="slotId"
+                    ng-model="booking.slotId"
+                    ng-options="
+                        slot.id as
+                        (
+                            slot.slotNumber +
+                            ' - ' +
+                            slot.floor
+                        )
+                        for slot in getAvailableSlots()
+                    "
+                    required>
+
+                    <option value="">
+                        Select available slot
+                    </option>
+
+                </select>
+
+
+                <small
+                    class="field-help"
+                    ng-if="booking.vehicleType">
+
+                    Showing available
+                    {{ booking.vehicleType }}
+                    parking slots.
+
+                </small>
+
+
+                <small
+                    class="field-help"
+                    ng-if="
+                        booking.vehicleType &&
+                        getAvailableSlots().length === 0
+                    ">
+
+                    No available
+                    {{ booking.vehicleType }}
+                    slots at the moment.
+
+                </small>
+
+            </div>
+
+
+            <!-- FEE -->
+
+            <div class="booking-fee-preview">
+
+                <div>
+
+                    <span>
+                        Parking Fee
+                    </span>
+
+                    <strong>
+
+                        ₹{{ calculateFee() | number:2 }}
+
+                    </strong>
+
+                </div>
+
+                <p>
+
+                    Fee is automatically calculated
+                    based on vehicle type and duration.
+
+                </p>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="primary-btn booking-submit">
+
+                Confirm Parking
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================
+         FEE INFORMATION
+    ================================== -->
+
+    <div class="pricing-card">
+
+
+        <h2>
+            Parking Charges
+        </h2>
+
+
+        <p>
+            Current SmartPark parking rates
+        </p>
+
+
+        <div class="price-section">
+
+
+            <h3>
+                🚗 Car
+            </h3>
+
+
+            <div class="price-row">
+
+                <span>
+                    Up to 2 hours
+                </span>
+
+                <strong>
+                    ₹30
+                </strong>
+
+            </div>
+
+
+            <div class="price-row">
+
+                <span>
+                    3–5 hours
+                </span>
+
+                <strong>
+                    ₹50
+                </strong>
+
+            </div>
+
+
+            <div class="price-row">
+
+                <span>
+                    6–10 hours
+                </span>
+
+                <strong>
+                    ₹80
+                </strong>
+
+            </div>
+
+
+            <div class="price-row">
+
+                <span>
+                    Above 10 hours
+                </span>
+
+                <strong>
+                    ₹120
+                </strong>
+
+            </div>
+
+
+            <div class="price-row extra-rate">
+
+                <span>
+                    Extra hour
+                </span>
+
+                <strong>
+                    ₹20
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="price-section">
+
+
+            <h3>
+                🏍️ Two Wheeler
+            </h3>
+
+
+            <div class="price-row">
+
+                <span>
+                    Up to 2 hours
+                </span>
+
+                <strong>
+                    ₹15
+                </strong>
+
+            </div>
+
+
+            <div class="price-row">
+
+                <span>
+                    3–5 hours
+                </span>
+
+                <strong>
+                    ₹25
+                </strong>
+
+            </div>
+
+
+            <div class="price-row">
+
+                <span>
+                    6–10 hours
+                </span>
+
+                <strong>
+                    ₹40
+                </strong>
+
+            </div>
+
+
+            <div class="price-row">
+
+                <span>
+                    Above 10 hours
+                </span>
+
+                <strong>
+                    ₹60
+                </strong>
+
+            </div>
+
+
+            <div class="price-row extra-rate">
+
+                <span>
+                    Extra hour
+                </span>
+
+                <strong>
+                    ₹10
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

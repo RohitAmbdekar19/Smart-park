@@ -1,0 +1,350 @@
+<div class="page-header">
+
+    <div>
+
+        <h1>Reports & Analytics</h1>
+
+        <p>
+            Analyze parking activity, revenue and utilization.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     SUMMARY
+===================================== -->
+
+<div class="report-stat-grid">
+
+
+    <div class="report-stat-card">
+
+        <span>
+            📋
+        </span>
+
+        <div>
+
+            <small>
+                Total Bookings
+            </small>
+
+            <strong>
+                {{ bookings.length }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-stat-card">
+
+        <span>
+            💰
+        </span>
+
+        <div>
+
+            <small>
+                Total Revenue
+            </small>
+
+            <strong>
+
+                ₹{{ getRevenue() | number:2 }}
+
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-stat-card">
+
+        <span>
+            📊
+        </span>
+
+        <div>
+
+            <small>
+                Slot Utilization
+            </small>
+
+            <strong>
+                {{ getUtilization() }}%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-stat-card">
+
+        <span>
+            ✅
+        </span>
+
+        <div>
+
+            <small>
+                Completed
+            </small>
+
+            <strong>
+                {{ getCompleted() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     CHARTS
+===================================== -->
+
+<div class="report-chart-grid">
+
+
+    <!-- BOOKING STATUS -->
+
+    <div class="report-chart-card">
+
+        <div class="chart-card-header">
+
+            <div>
+
+                <h2>
+                    Booking Status
+                </h2>
+
+                <p>
+                    Distribution of parking bookings.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <canvas
+                id="bookingStatusChart">
+            </canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- REVENUE -->
+
+    <div class="report-chart-card">
+
+        <div class="chart-card-header">
+
+            <div>
+
+                <h2>
+                    Revenue by Booking
+                </h2>
+
+                <p>
+                    Revenue generated from completed parking sessions.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-container">
+
+            <canvas
+                id="revenueChart">
+            </canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     PARKING SLOT STATUS
+===================================== -->
+
+<div class="report-section">
+
+    <div class="report-section-header">
+
+        <div>
+
+            <h2>
+                Parking Slot Status
+            </h2>
+
+            <p>
+                Current utilization of parking spaces.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="report-status-grid">
+
+
+        <div class="report-status-card">
+
+            <span class="report-dot available-dot"></span>
+
+            <div>
+
+                <small>
+                    Available
+                </small>
+
+                <strong>
+                    {{ getAvailable() }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="report-status-card">
+
+            <span class="report-dot reserved-dot"></span>
+
+            <div>
+
+                <small>
+                    Reserved
+                </small>
+
+                <strong>
+                    {{ getReserved() }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="report-status-card">
+
+            <span class="report-dot occupied-dot"></span>
+
+            <div>
+
+                <small>
+                    Occupied
+                </small>
+
+                <strong>
+                    {{ getOccupied() }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     BOOKING STATISTICS
+===================================== -->
+
+<div class="report-section">
+
+    <div class="report-section-header">
+
+        <div>
+
+            <h2>
+                Booking Statistics
+            </h2>
+
+            <p>
+                Current booking status distribution.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="booking-report-grid">
+
+
+        <div class="booking-report-card">
+
+            <span>
+                Reserved
+            </span>
+
+            <strong>
+                {{ getReservedBookings() }}
+            </strong>
+
+        </div>
+
+
+        <div class="booking-report-card">
+
+            <span>
+                Occupied
+            </span>
+
+            <strong>
+                {{ getOccupiedBookings() }}
+            </strong>
+
+        </div>
+
+
+        <div class="booking-report-card">
+
+            <span>
+                Completed
+            </span>
+
+            <strong>
+                {{ getCompleted() }}
+            </strong>
+
+        </div>
+
+
+        <div class="booking-report-card">
+
+            <span>
+                Cancelled
+            </span>
+
+            <strong>
+                {{ getCancelled() }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
