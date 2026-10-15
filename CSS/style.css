@@ -1478,3 +1478,510 @@ select {
     }
 
 }
+
+/* =========================================
+   DEMO / TEST TIME PREVIEW
+========================================= */
+.demo-time-btn {
+    border: 1px solid #c7d2fe;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 7px;
+    padding: 7px 10px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.demo-time-btn:hover { background: #e0e7ff; }
+.demo-warning {
+    border: 1px solid #fcd34d;
+    background: #fffbeb;
+    color: #92400e;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 16px 0;
+    font-size: 13px;
+}
+.demo-warning p { margin: 5px 0 0; line-height: 1.5; }
+.demo-time-control { margin: 18px 0; }
+.demo-time-control label { display: block; font-weight: 700; margin-bottom: 8px; }
+.demo-time-input-row { display: flex; align-items: center; gap: 10px; }
+.demo-time-input-row input { width: 120px; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+.demo-presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.demo-presets button { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 7px; padding: 7px 13px; cursor: pointer; font-weight: 700; }
+.demo-presets button:hover { background: #e2e8f0; }
+.demo-time-control small { color: #64748b; display: block; line-height: 1.5; }
+.demo-time-modal { max-height: 90vh; overflow-y: auto; }
+@media (max-width: 600px) {
+    .demo-time-btn { padding: 6px 8px; }
+    .demo-time-input-row input { width: 100px; }
+}
+
+/* =========================================
+   SMARTPARK STYLE UPDATE
+   Blue-and-white student project theme
+   Styling only — no JavaScript changes
+========================================= */
+
+:root {
+    --sp-blue: #1f5f9f;
+    --sp-blue-dark: #174875;
+    --sp-blue-light: #eaf3fb;
+    --sp-border: #d9e1e8;
+    --sp-page: #f3f6f9;
+    --sp-text: #243447;
+    --sp-muted: #667789;
+}
+
+/* General page styling */
+body {
+    background: var(--sp-page);
+    color: var(--sp-text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Navigation bar */
+.navbar {
+    background: var(--sp-blue-dark);
+    border-bottom: 3px solid #123a60;
+    box-shadow: none;
+}
+
+.nav-container {
+    max-width: 1440px;
+    min-height: 68px;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 22px;
+    letter-spacing: 0;
+}
+
+.nav-links {
+    gap: 3px;
+}
+
+.nav-links a {
+    color: #e7f0f8;
+    border-radius: 4px;
+    padding: 10px 12px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-links a:hover {
+    color: #ffffff;
+    background: #285f8d;
+}
+
+.nav-links a.active {
+    color: #173d61;
+    background: #ffffff;
+    font-weight: 700;
+}
+
+/* Main content */
+.main-container {
+    max-width: 1440px;
+    padding-top: 30px;
+}
+
+.page-header {
+    margin-bottom: 26px;
+}
+
+.page-header h1 {
+    color: #1f3448;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.page-header p,
+.stat-card span,
+.quick-action small,
+.field-help {
+    color: var(--sp-muted);
+}
+
+/* Buttons */
+.primary-btn,
+.booking-submit,
+.invoice-btn,
+.print-btn {
+    background: var(--sp-blue);
+    border-radius: 5px;
+    box-shadow: none;
+    transition: background-color 0.15s ease;
+}
+
+.primary-btn:hover,
+.booking-submit:hover,
+.invoice-btn:hover,
+.print-btn:hover {
+    background: var(--sp-blue-dark);
+    transform: none;
+}
+
+.secondary-btn {
+    border-radius: 5px;
+    border-color: #c6d1dc;
+}
+
+/* Headings and statistics */
+.section-heading h2,
+.slot-summary-card strong,
+.stat-card strong,
+.booking-stat-card strong,
+.report-stat-card strong {
+    color: #243b50;
+}
+
+/* Dashboard cards and content panels */
+.stat-card,
+.quick-action,
+.recent-bookings,
+.slot-summary-card,
+.selected-slot-card,
+.pricing-card,
+.booking-filter-card,
+.booking-stats .booking-stat-card,
+.report-stat-card,
+.report-chart-card,
+.report-status-card,
+.booking-report-card,
+.charge-container,
+.bill-table-wrapper {
+    border: 1px solid var(--sp-border);
+    border-radius: 7px;
+    box-shadow: 0 2px 5px rgba(28, 51, 74, 0.035);
+}
+
+.stat-card,
+.quick-action,
+.slot-summary-card,
+.selected-slot-card,
+.pricing-card,
+.booking-filter-card,
+.report-stat-card,
+.report-chart-card,
+.report-status-card,
+.booking-report-card {
+    background: #ffffff;
+}
+
+.stat-card {
+    padding: 18px;
+    gap: 13px;
+}
+
+.stat-icon {
+    border-radius: 6px;
+}
+
+/* Quick action links */
+.quick-action {
+    border-radius: 7px;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.quick-action:hover {
+    border-color: #a9c5df;
+    background: #fbfdff;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Booking status labels */
+.status-badge {
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+/* Parking slots */
+.parking-slot {
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.parking-slot:hover {
+    transform: none;
+    box-shadow: 0 0 0 2px rgba(31, 95, 159, 0.12);
+}
+
+.parking-slot.selected {
+    border: 2px solid var(--sp-blue);
+    box-shadow: none;
+}
+
+/* Form fields */
+.form-group select,
+.slot-toolbar select,
+.booking-filter-card select,
+input,
+select,
+textarea {
+    border-radius: 5px;
+    border-color: #c8d3de;
+}
+
+.form-group select:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--sp-blue);
+    box-shadow: 0 0 0 2px rgba(31, 95, 159, 0.12);
+}
+
+/* Vehicle type selection */
+.vehicle-type-option {
+    border-radius: 6px;
+}
+
+.vehicle-type-option.selected {
+    border-color: var(--sp-blue);
+    background: var(--sp-blue-light);
+    box-shadow: none;
+}
+
+/* Booking fee preview */
+.booking-fee-preview {
+    border-radius: 6px;
+    background: #f0f6fb;
+    border: 1px solid #d5e5f2;
+}
+
+/* Tables */
+.booking-table-wrapper,
+.bill-table-wrapper {
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: 7px;
+}
+
+.booking-table,
+.bill-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.booking-table th,
+.bill-table th {
+    background: #eaf1f7;
+    color: #29445d;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.booking-table th,
+.booking-table td,
+.bill-table th,
+.bill-table td {
+    border-bottom: 1px solid #e1e7ed;
+}
+
+.booking-table tbody tr:hover,
+.bill-table tbody tr:hover {
+    background: #f7fafc;
+}
+
+/* Booking and billing action buttons */
+.cancel-btn,
+.view-btn,
+.checkin-btn,
+.checkout-btn,
+.invoice-btn {
+    border-radius: 4px;
+}
+
+/* Modals and invoice */
+.invoice-overlay {
+    background: rgba(20, 37, 54, 0.55);
+}
+
+.details-modal,
+.invoice-modal {
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(12, 31, 49, 0.18);
+}
+
+.modal-header,
+.invoice-top {
+    border-bottom: 1px solid #e0e7ed;
+}
+
+.invoice-total {
+    background: #edf4fa;
+    border-radius: 4px;
+}
+
+/* Reports */
+.report-chart-card,
+.report-stat-card,
+.report-status-card,
+.booking-report-card {
+    border-radius: 7px;
+}
+
+/* Responsive layout */
+@media (max-width: 750px) {
+    .nav-container {
+        align-items: stretch;
+    }
+
+    .logo {
+        text-align: center;
+    }
+
+    .nav-links a {
+        padding: 8px 10px;
+    }
+
+    .main-container {
+        padding-top: 22px;
+    }
+
+    .page-header h1 {
+        font-size: 25px;
+    }
+}
+
+
+/* ========================================
+   SMARTPARK - FONT IMPROVEMENTS
+   ======================================== */
+
+/* Main font for the entire application */
+body {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    color: #243447;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.card-title,
+.section-title {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: #243447;
+}
+
+/* Navbar and brand */
+.navbar,
+.navbar a,
+.navbar-brand {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-weight: 500;
+}
+
+.navbar-brand {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+/* Buttons */
+button,
+.btn,
+input[type="submit"],
+input[type="button"] {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+
+/* Forms and input fields */
+input,
+select,
+textarea {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-size: 14px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Tables */
+table {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-size: 14px;
+}
+
+th {
+    font-weight: 600;
+}
+
+/* Dashboard numbers and statistics */
+.stat-value,
+.stat-number,
+.amount,
+.revenue,
+.metric-value {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+}
+
+/* Booking bills and invoices */
+.invoice,
+.invoice-details,
+.bill-details {
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+/* Small helper text */
+small,
+.text-muted,
+.help-text {
+    font-size: 12px;
+}
+
+
+/* Fix View Bill button text color */
+button.invoice-btn,
+.invoice-btn {
+    color: #ffffff !important;
+}
+
+button.invoice-btn:hover,
+.invoice-btn:hover,
+button.invoice-btn:focus,
+.invoice-btn:focus {
+    color: #ffffff !important;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.smartpark-logo {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.logo span {
+    font-size: 25px;
+    font-weight: 700;
+}
+

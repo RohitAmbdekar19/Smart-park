@@ -327,6 +327,16 @@
                         </button>
 
 
+                        <!-- DEMO / TEST TIME: preview only, never checks out the real booking -->
+                        <button
+                            class="demo-time-btn"
+                            ng-if="booking.status === 'Occupied'"
+                            ng-click="openDemoTime(booking)"
+                            title="Preview different parking durations">
+                            ⏱️ Demo Time
+                        </button>
+
+
                         <!-- CANCEL -->
 
                         <button
@@ -636,3 +646,63 @@
     </div>
 
 </div>
+
+<!-- =====================================
+     DEMO / TEST TIME BILL PREVIEW
+     Preview only: no booking or revenue data is changed.
+===================================== -->
+<div class="invoice-overlay demo-time-overlay" ng-if="demoBooking">
+    <div class="invoice-modal demo-time-modal">
+        <div class="invoice-top">
+            <div>
+                <span>SMARTPARK · DEMO MODE</span>
+                <h2>Test Parking Time</h2>
+            </div>
+            <button class="invoice-close" ng-click="closeDemoTime()" aria-label="Close">×</button>
+        </div>
+
+        <div class="demo-warning">
+            <strong>DEMO PREVIEW — NOT A REAL CHECK-OUT</strong>
+            <p>This changes only the preview. Your booking, slot status, actual timestamps and reports remain untouched.</p>
+        </div>
+
+        <div class="invoice-info-grid">
+            <div><span>Booking ID</span><strong>{{ demoBooking.bookingId }}</strong></div>
+            <div><span>Vehicle Type</span><strong>{{ demoBooking.vehicleType }}</strong></div>
+            <div><span>Parking Slot</span><strong>{{ demoBooking.slotNumber }}</strong></div>
+            <div><span>Booked Duration</span><strong>{{ demoBooking.duration }} hour(s)</strong></div>
+        </div>
+
+        <div class="demo-time-control">
+            <label for="demoActualHours">Simulated actual parking duration</label>
+            <div class="demo-time-input-row">
+                <input id="demoActualHours" type="number" min="1" max="720" step="1"
+                       ng-model="demoTime.actualHours" ng-change="updateDemoBill()">
+                <span>hour(s)</span>
+            </div>
+            <div class="demo-presets">
+                <button type="button" ng-click="setDemoHours(1)">1h</button>
+                <button type="button" ng-click="setDemoHours(2)">2h</button>
+                <button type="button" ng-click="setDemoHours(3)">3h</button>
+                <button type="button" ng-click="setDemoHours(6)">6h</button>
+                <button type="button" ng-click="setDemoHours(12)">12h</button>
+                <button type="button" ng-click="setDemoHours(24)">24h</button>
+            </div>
+            <small>Choose a preset or type any whole number of hours. Billing rounds up to a whole hour.</small>
+        </div>
+
+        <div class="invoice-breakdown" ng-if="demoBill">
+            <div class="invoice-row"><span>Booked Duration</span><strong>{{ demoBill.bookedHours }} hour(s)</strong></div>
+            <div class="invoice-row"><span>Simulated Actual Duration</span><strong>{{ demoBill.actualHours }} hour(s)</strong></div>
+            <div class="invoice-row"><span>Base Parking Charge</span><strong>₹{{ demoBill.baseFee | number:2 }}</strong></div>
+            <div class="invoice-row"><span>Extra Hours</span><strong>{{ demoBill.extraHours }} hour(s)</strong></div>
+            <div class="invoice-row"><span>Extra Charge (₹{{ demoBill.extraRate }}/hour)</span><strong>₹{{ demoBill.extraCharge | number:2 }}</strong></div>
+            <div class="invoice-total"><span>DEMO TOTAL</span><strong>₹{{ demoBill.finalFee | number:2 }}</strong></div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="secondary-btn" ng-click="closeDemoTime()">Close Preview</button>
+        </div>
+    </div>
+</div>
+

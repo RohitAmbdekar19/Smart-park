@@ -737,8 +737,15 @@ app.controller(
     ) {
 
 
-        $scope.bookings =
-            ParkingService.getBookings();
+       $scope.bookings =
+    ParkingService.getBookings()
+        .slice()
+        .sort(function (a, b) {
+            var timeA = Number(a.createdTimestamp) || 0;
+            var timeB = Number(b.createdTimestamp) || 0;
+
+            return timeB - timeA;
+        });
 
 
         $scope.searchText =
@@ -1121,6 +1128,86 @@ app.controller(
             };
 
 
+       
+/* =====================================
+   DEMO / TEST TIME BILL PREVIEW
+   Preview only — does not change bookings.
+===================================== */
+
+$scope.demoBooking = null;
+$scope.demoTime = {
+    actualHours: 1
+};
+$scope.demoBill = null;
+
+$scope.openDemoTime = function (booking) {
+    if (!booking || booking.status !== "Occupied") {
+        return;
+    }
+
+    $scope.demoBooking = booking;
+
+    $scope.demoTime.actualHours = Math.max(
+        1,
+        Number(booking.duration) || 1
+    );
+
+    $scope.updateDemoBill();
+};
+
+$scope.updateDemoBill = function () {
+    if (!$scope.demoBooking) {
+        $scope.demoBill = null;
+        return;
+    }
+
+    var enteredHours = Number($scope.demoTime.actualHours);
+
+    if (!isFinite(enteredHours) || enteredHours < 1) {
+        $scope.demoBill = null;
+        return;
+    }
+
+    var actualHours = Math.ceil(enteredHours);
+
+    var bookedHours = Math.max(
+        1,
+        Number($scope.demoBooking.duration) || 1
+    );
+
+    var extraHours = Math.max(
+        0,
+        actualHours - bookedHours
+    );
+
+    var baseFee = $scope.calculateBaseFee(
+        $scope.demoBooking
+    );
+
+    var extraRate =
+        $scope.demoBooking.vehicleType === "Car"
+            ? 20
+            : 10;
+
+    var extraCharge = extraHours * extraRate;
+
+    $scope.demoBill = {
+        bookedHours: bookedHours,
+        actualHours: actualHours,
+        extraHours: extraHours,
+        baseFee: baseFee,
+        extraRate: extraRate,
+        extraCharge: extraCharge,
+        finalFee: baseFee + extraCharge
+    };
+};
+
+$scope.closeDemoTime = function () {
+    $scope.demoBooking = null;
+    $scope.demoBill = null;
+};
+
+
         // -----------------------------------------
         // CHECK-OUT
         // -----------------------------------------
@@ -1309,17 +1396,20 @@ app.controller(
             ParkingService.getBookings();
 
 
-        $scope.completedBookings =
-            $scope.bookings.filter(
-                function (booking) {
+       
+$scope.completedBookings =
+    $scope.bookings
+        .filter(function (booking) {
+            return booking.status === "Completed";
+        })
+        .slice()
+        .sort(function (a, b) {
+            var timeA = Number(a.createdTimestamp) || 0;
+            var timeB = Number(b.createdTimestamp) || 0;
 
-                    return (
-                        booking.status ===
-                        "Completed"
-                    );
+            return timeB - timeA;
+        });
 
-                }
-            );
 
 
         $scope.selectedInvoice =
